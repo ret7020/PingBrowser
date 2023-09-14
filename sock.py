@@ -7,11 +7,11 @@ def listen():
     while 1:
         data, addr = s.recvfrom(1024)
         if data:
-            icmp_header = recPacket[20:28]
+            # Header processing
+            icmp_header = data[20:28]
             icmp_type, code, checksum, p_id, sequence = struct.unpack('bbHHh', icmp_header)
-
-
-            print(data, end="\n-----\n")
+            if icmp_type == 0: # Read only ICMP ECHO REQUESTS; For listen for ICMP ECHO sent by us use 8
+                print(data[28:].decode("utf-8"))
 
 if __name__ == "__main__":
     listen()
