@@ -51,8 +51,7 @@ def recv(callback):
         if data:
             icmp_header = data[20:28]
             icmp_type, code, checksum, p_id, sequence = struct.unpack('bbHHh', icmp_header)
-            if icmp_type == 0:
-                callback(data[28:].decode("utf-8"))
+            callback(icmp_type, data[28:].decode("utf-8"))
 
 if __name__ == "__main__":
     sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
